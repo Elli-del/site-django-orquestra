@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import DiretoriaForm
+from .models import Diretoria
 
 # Create your views here.
 def index (request):
@@ -17,13 +19,7 @@ def musicos (request):
                     ]
 
     naipe_metais = [
-        {'nome': 'João dos Santos', 'instrumento': 'Trumpet', 'foto': 'img/musicos/joao_santos.jpg'},
-        {'nome': 'José Silva', 'instrumento': 'Trombone', 'foto': 'img/musicos/jose_silva.jpg'},
-        {'nome': 'Joaquim Rocha', 'instrumento': 'Tuba', 'foto': 'img/musicos/joaquim_rocha.jpg'}
-                    ]
-
-    naipe_percussao = [
-        {'nome': 'Joaquim da Silva', 'instrumento': 'Bateria', 'foto': 'img/musicos/joaquim_silva.jpg'},
+        {'nome': 'João dos Sant"/home/ubuntu/back-end/orquestra/cadastros/views.py", line 3lva', 'instrumento': 'Bateria', 'foto': 'img/musicos/joaquim_silva.jpg'},
         {'nome': 'Pedro Santos', 'instrumento': 'Tímpano', 'foto': 'img/musicos/pedro_santos.jpg'}
                         ]
     
@@ -33,6 +29,20 @@ def musicos (request):
         {'naipe': 'Percussão', 'musicos': naipe_percussao},
     ]
 
-
+   
 
     return render(request, 'musicos.html', {'nome': 'Fazendo Música', 'naipes': naipes})
+
+def diretoria(request):
+    componentes = Diretoria.objects.all()
+    return render(request, 'diretoria.html', {'componentes': componentes})
+
+def cadastrar_diretoria(request):
+    if request.method == 'POST':
+        form = DiretoriaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('diretoria')
+    else:
+        form = DiretoriaForm()
+    return render(request, 'cadastrar_diretoria.html', {'form': form})

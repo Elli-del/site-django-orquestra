@@ -31,3 +31,14 @@ class Musico(models.Model):
     def __str__(self):
         return self.nome
     
+class Diretoria(models.Model):
+    CARGOS = [
+        ('PRES','Presidente'),
+        ('VICE','Vice-Presidente'),
+        ('SEC','Secretário'),
+        ('TES','Tesoureiro'),
+        ('DIR','Diretor'),
+    ]
+    cargo = models.CharField(max_length=4, choices=CARGOS)
+    nome = models.CharField(max_length=100)
+    contato = models.EmailField(null=True, blank=True)
